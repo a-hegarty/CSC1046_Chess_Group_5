@@ -2,8 +2,9 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 const square_Size = 75; 
-//setting the square size to 75 keeps the board at 8*8 squares,
-//standard chessboard size
+/*setting the square size to 75 keeps the board at 8*8 squares,
+standard chessboard size,
+on a 600*600 canvas*/
 
 //fucntion prints a checkerboard using the dimensions of the canvas element and square_Size const
 function checkerboard() {
