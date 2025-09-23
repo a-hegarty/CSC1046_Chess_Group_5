@@ -29,70 +29,62 @@ function checkerboard() {
 
 function get_Mouse_Position(canvas, event){
     let rect = canvas.getBoundingClientRect();
-    let x = Math.round(event.clientX - rect.left); // x is displaying a really long decimal for some reason
+    let x = Math.round(event.clientX - rect.left); 
+    // x is displaying a really long decimal for some reason
     // used math.round to round it to the nearest whole number
     let y = event.clientY - rect.top;
+
+    //get rank and file of the square the cursor is on
     let rank = get_Rank(y);
     let file = get_File(x);
     document.getElementById("demo").innerText = "Rank: " + rank + " File: " + file;;
 }
 
+//function gets rank of row of board squares
 function get_Rank(y_coord){
     let rank = "";
-    if (y_coord < square_Size){
+    if (y_coord < square_Size){ 
+        /* if y_coord is strictly less than square_Size, it is in the 8 rank
+        if y_coord is between squaresize and 2* squaresize, it is in rank 7 and so on
+        same applies for files in function get_File()*/
         rank = "8";
-        console.log(rank);
     } else if (square_Size <= y_coord && y_coord < 2 * square_Size){
         rank = "7";
-        console.log(rank);
     } else if (2 * square_Size <= y_coord && y_coord < 3 * square_Size){
         rank = "6";
-        console.log(rank);
     } else if (3 * square_Size <= y_coord && y_coord < 4 * square_Size){
         rank = "5";
-        console.log(rank);
     } else if (4 * square_Size <= y_coord && y_coord < 5 * square_Size){
         rank = "4";
-        console.log(rank);
     } else if (5 * square_Size <= y_coord && y_coord < 6 * square_Size){
         rank = "3";
-        console.log(rank);
     } else if (6 * square_Size <= y_coord && y_coord < 7 * square_Size){
         rank = "2";
-        console.log(rank);
     } else if (7 * square_Size <= y_coord && y_coord < 8 * square_Size){
         rank = "1";
-        console.log(rank);
     }
     return rank;
 }
 
+// function gets file of collumn of board squares
 function get_File(x_coord){
     let file = "";
     if (x_coord < square_Size){
         file = "a";
-        console.log(file);
     } else if (square_Size <= x_coord && x_coord < 2 * square_Size){
         file = "b";
-        console.log(file);
     } else if (2 * square_Size <= x_coord && x_coord < 3 * square_Size){
         file = "c";
-        console.log(file);
     } else if (3 * square_Size <= x_coord && x_coord < 4 * square_Size){
         file = "d";
-        console.log(file);
     } else if (4 * square_Size <= x_coord && x_coord < 5 * square_Size){
         file = "e";
-        console.log(file);
     } else if (5 * square_Size <= x_coord && x_coord < 6 * square_Size){
         file = "f";
-        console.log(file);
     } else if (6 * square_Size <= x_coord && x_coord < 7 * square_Size){
         file = "g";
-        console.log(file);
     } else if (7 * square_Size <= x_coord && x_coord < 8 * square_Size){
         file = "h";
-        console.log(file);
     }
     return file;
 }
