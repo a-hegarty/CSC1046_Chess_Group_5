@@ -27,4 +27,49 @@ function checkerboard() {
     }
 }
 
+function get_Mouse_Position(canvas, event){
+    let rect = canvas.getBoundingClientRect();
+    let x = Math.round(event.clientX - rect.left); // x is displaying a really long decimal for some reason
+    // used math.round to round it to the nearest whole number
+    let y = event.clientY - rect.top;
+    let rank = get_Rank(y);
+    document.getElementById("demo").innerText = "Coords: x = " + x + " y = " + y;
+    document.getElementById("yrank").innerText = "Rank: " + rank;
+}
+
+function get_Rank(y_coord){
+    let rank = "";
+    if (y_coord < square_Size){
+        rank = "8";
+        console.log(rank);
+    } else if (square_Size <= y_coord && y_coord < 2 * square_Size){
+        rank = "7";
+        console.log(rank);
+    } else if (2 * square_Size <= y_coord && y_coord < 3 * square_Size){
+        rank = "6";
+        console.log(rank);
+    } else if (3 * square_Size <= y_coord && y_coord < 4 * square_Size){
+        rank = "5";
+        console.log(rank);
+    } else if (4 * square_Size <= y_coord && y_coord < 5 * square_Size){
+        rank = "4";
+        console.log(rank);
+    } else if (5 * square_Size <= y_coord && y_coord < 6 * square_Size){
+        rank = "3";
+        console.log(rank);
+    } else if (6 * square_Size <= y_coord && y_coord < 7 * square_Size){
+        rank = "2";
+        console.log(rank);
+    } else if (7 * square_Size <= y_coord && y_coord < 8 * square_Size){
+        rank = "1";
+        console.log(rank);
+    }
+    return rank;
+}
+
+canvas.addEventListener("mousemove", function(e){
+    get_Mouse_Position(canvas, e);
+});
+
+
 checkerboard();
