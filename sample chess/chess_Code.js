@@ -33,8 +33,8 @@ function get_Mouse_Position(canvas, event){
     // used math.round to round it to the nearest whole number
     let y = event.clientY - rect.top;
     let rank = get_Rank(y);
-    document.getElementById("demo").innerText = "Coords: x = " + x + " y = " + y;
-    document.getElementById("yrank").innerText = "Rank: " + rank;
+    let file = get_File(x);
+    document.getElementById("demo").innerText = "Rank: " + rank + " File: " + file;;
 }
 
 function get_Rank(y_coord){
@@ -65,6 +65,36 @@ function get_Rank(y_coord){
         console.log(rank);
     }
     return rank;
+}
+
+function get_File(x_coord){
+    let file = "";
+    if (x_coord < square_Size){
+        file = "a";
+        console.log(file);
+    } else if (square_Size <= x_coord && x_coord < 2 * square_Size){
+        file = "b";
+        console.log(file);
+    } else if (2 * square_Size <= x_coord && x_coord < 3 * square_Size){
+        file = "c";
+        console.log(file);
+    } else if (3 * square_Size <= x_coord && x_coord < 4 * square_Size){
+        file = "d";
+        console.log(file);
+    } else if (4 * square_Size <= x_coord && x_coord < 5 * square_Size){
+        file = "e";
+        console.log(file);
+    } else if (5 * square_Size <= x_coord && x_coord < 6 * square_Size){
+        file = "f";
+        console.log(file);
+    } else if (6 * square_Size <= x_coord && x_coord < 7 * square_Size){
+        file = "g";
+        console.log(file);
+    } else if (7 * square_Size <= x_coord && x_coord < 8 * square_Size){
+        file = "h";
+        console.log(file);
+    }
+    return file;
 }
 
 canvas.addEventListener("mousemove", function(e){
