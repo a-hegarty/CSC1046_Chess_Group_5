@@ -42,26 +42,26 @@ function get_Mouse_Position(canvas, event){
 
 //function gets rank of row of board squares
 function get_Rank(y_coord){
-    let rank = "";
+    let rank = 0;
     if (y_coord < square_Size){ 
         /* if y_coord is strictly less than square_Size, it is in the 8 rank
         if y_coord is between squaresize and 2* squaresize, it is in rank 7 and so on
         same applies for files in function get_File()*/
-        rank = "8";
+        rank = 8;
     } else if (square_Size <= y_coord && y_coord < 2 * square_Size){
-        rank = "7";
+        rank = 7;
     } else if (2 * square_Size <= y_coord && y_coord < 3 * square_Size){
-        rank = "6";
+        rank = 6;
     } else if (3 * square_Size <= y_coord && y_coord < 4 * square_Size){
-        rank = "5";
+        rank = 5;
     } else if (4 * square_Size <= y_coord && y_coord < 5 * square_Size){
-        rank = "4";
+        rank = 4;
     } else if (5 * square_Size <= y_coord && y_coord < 6 * square_Size){
-        rank = "3";
+        rank = 3;
     } else if (6 * square_Size <= y_coord && y_coord < 7 * square_Size){
-        rank = "2";
+        rank = 2;
     } else if (7 * square_Size <= y_coord && y_coord < 8 * square_Size){
-        rank = "1";
+        rank = 1;
     }
     return rank;
 }
