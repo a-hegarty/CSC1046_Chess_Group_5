@@ -27,6 +27,7 @@ function checkerboard() {
     }
 }
 
+//function gets the coordinates of the mouse cursor on the canvas element
 function get_Mouse_Position(canvas, event){
     let rect = canvas.getBoundingClientRect();
     let x = Math.round(event.clientX - rect.left); 
@@ -88,6 +89,13 @@ function get_File(x_coord){
     }
     return file;
 }
+
+const forfeit_Button = document.getElementById("forfeit");
+    
+forfeit_Button.addEventListener("click", function(){
+        alert("You have forfeited the game.");
+});
+
 
 canvas.addEventListener("mousemove", function(e){
     get_Mouse_Position(canvas, e);
