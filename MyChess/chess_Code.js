@@ -90,12 +90,25 @@ function get_File(x_coord){
     return file;
 }
 
-const forfeit_Button = document.getElementById("forfeit");
+/*const forfeit_Button = document.getElementById("forfeit");
     
 forfeit_Button.addEventListener("click", function(){
         alert("You have forfeited the game.");
-});
+});*/
 
+function forfeit(){
+   const forfeit_Button = document.getElementById("forfeit");
+    
+    forfeit_Button.addEventListener("click", function(){
+        let confirm_forfeit = confirm("Are you sure you would like to forfeit this game?");
+        if(confirm_forfeit == true){
+            alert("You have forfeited the game.");
+        } else {
+            alert("You have not forfeited the game\nReturning to game");
+        }
+        //alert("You have forfeited the game");
+}); 
+}
 
 canvas.addEventListener("mousemove", function(e){
     get_Mouse_Position(canvas, e);
@@ -103,3 +116,4 @@ canvas.addEventListener("mousemove", function(e){
 
 
 checkerboard();
+forfeit();
