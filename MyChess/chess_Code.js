@@ -90,24 +90,22 @@ function get_File(x_coord){
     return file;
 }
 
-/*const forfeit_Button = document.getElementById("forfeit");
-    
-forfeit_Button.addEventListener("click", function(){
-        alert("You have forfeited the game.");
-});*/
-
+//function allows plauer to forfeit a game after confirmation
 function forfeit(){
    const forfeit_Button = document.getElementById("forfeit");
     
+   //on click...
     forfeit_Button.addEventListener("click", function(){
+        //...confirn decision...
         let confirm_forfeit = confirm("Are you sure you would like to forfeit this game?");
         if(confirm_forfeit == true){
+            // if player wants to forfeit, the game ends
             alert("You have forfeited the game.");
         } else {
+            //otherwise play continues as normal
             alert("You have not forfeited the game\nReturning to game");
         }
-        //alert("You have forfeited the game");
-}); 
+    }); 
 }
 
 canvas.addEventListener("mousemove", function(e){
