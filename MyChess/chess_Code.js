@@ -112,5 +112,9 @@ canvas.addEventListener("mousemove", function(e){
 });
 
 
-checkerboard();
-forfeit();
+function init(){
+    checkerboard();
+    forfeit();
+}
+
+window.onload = init;
