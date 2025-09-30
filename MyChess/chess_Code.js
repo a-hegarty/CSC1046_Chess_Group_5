@@ -39,19 +39,17 @@ function checkerboard() {
             //grey and beige chosen so black and white pieces can be clearly seen on both kinds of squares
             if((row + collumn) % 2 === 0){
                 //ctx.fillStyle = "beige";
-                WhiteSquare = new Square_Button("beige");
+                const WhiteSquare = new Square_Button("beige");
                 WhiteSquare.set_Position(x, y);
                 WhiteSquare.set_Size(square_Size, square_Size);
                 WhiteSquare.draw(ctx);
             } else {
                 //ctx.fillStyle = "grey";
-                BlackSquare = new Square_Button("grey");
+                const BlackSquare = new Square_Button("grey");
                 BlackSquare.set_Position(x, y);
                 BlackSquare.set_Size(square_Size, square_Size);
                 BlackSquare.draw(ctx);
             }
-
-            ctx.fillRect(x, y, square_Size, square_Size);
         }
     }
 }
@@ -137,7 +135,7 @@ function forfeit(){
     }); 
 }
 
-canvas.addEventListener("mousemove", function(e){
+canvas.addEventListener("click", function(e){
     get_Mouse_Position(canvas, e);
 });
 
