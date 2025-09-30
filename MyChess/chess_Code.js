@@ -5,6 +5,28 @@ const square_Size = 75;
 /*setting the square size to 75 keeps the board at 8*8 squares,
 standard chessboard size, on a 600*600 canvas*/
 
+class Square_Button{
+
+    constructor(fillColor){
+        this.fillColor = fillColor;
+    }
+
+    set_Position(x, y){
+        this.x = x;
+        this.y = y;
+    }
+
+    set_Size(width, height){
+        this.width = width;
+        this.height = height;
+    }
+
+    draw(context){
+        context.fillStyle = this.fillColor;
+        context.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
 //fucntion prints a checkerboard using the dimensions of the canvas element and square_Size const
 function checkerboard() {
     //for loops make the grid for the board, drawing squares
@@ -14,11 +36,19 @@ function checkerboard() {
             const y = row * square_Size;
 
             //if statement lets the squares be different colours
-            //beige and brown chosen so black and white pieces can be clearly seen on both kinds of squares
+            //grey and beige chosen so black and white pieces can be clearly seen on both kinds of squares
             if((row + collumn) % 2 === 0){
-                ctx.fillStyle = "beige";
+                //ctx.fillStyle = "beige";
+                WhiteSquare = new Square_Button("beige");
+                WhiteSquare.set_Position(x, y);
+                WhiteSquare.set_Size(square_Size, square_Size);
+                WhiteSquare.draw(ctx);
             } else {
-                ctx.fillStyle = "grey";
+                //ctx.fillStyle = "grey";
+                BlackSquare = new Square_Button("grey");
+                BlackSquare.set_Position(x, y);
+                BlackSquare.set_Size(square_Size, square_Size);
+                BlackSquare.draw(ctx);
             }
 
             ctx.fillRect(x, y, square_Size, square_Size);
@@ -111,10 +141,19 @@ canvas.addEventListener("mousemove", function(e){
     get_Mouse_Position(canvas, e);
 });
 
+class Pieces {
+    conscructor(colour, type, start_file, start_rank){
+        this.colour = colour;
+        this.type = type;
+        this.start_file = start_file;
+        this.start_rank = start_rank;
+    }
+}
+
 
 function init(){
     checkerboard();
     forfeit();
 }
 
-window.onload = init;
+init();
