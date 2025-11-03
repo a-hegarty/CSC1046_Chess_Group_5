@@ -1,10 +1,34 @@
-html,
-body {
-  text-align: center;
-}
-
 canvas {
     border: solid;
     margin: auto;
     display: block;
+}
+
+.chessboard {
+  color: black;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h2, p {
+  margin: 10px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: brown;
+  display: flex;
+}
+
+ul li{
+  display: block;
+  color: beige;
+  padding: 14px 16px;
+  text-decoration: none;
 }

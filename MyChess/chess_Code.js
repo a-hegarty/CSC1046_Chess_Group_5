@@ -45,13 +45,17 @@ function checkerboard() {
                 WhiteSquare.draw(ctx);
             } else {
                 //ctx.fillStyle = "grey";
-                const BlackSquare = new Square_Button("grey");
+                const BlackSquare = new Square_Button("brown");
                 BlackSquare.set_Position(x, y);
                 BlackSquare.set_Size(square_Size, square_Size);
                 BlackSquare.draw(ctx);
             }
         }
     }
+}
+
+function chessboard(){
+    document.createElement("div").className = "chessboard";
 }
 
 //function gets the coordinates of the mouse cursor on the canvas element
@@ -152,6 +156,7 @@ class Pieces {
 function init(){
     checkerboard();
     forfeit();
+    chessboard();
 }
 
 init();
