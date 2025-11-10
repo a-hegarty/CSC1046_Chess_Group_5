@@ -4,8 +4,19 @@ canvas {
     display: block;
 }
 
-.chessboard {
-  color: black;
+#chessboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.cellContainer {
+  display: flex;
+}
+
+.cell{
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
 }
 
 body {

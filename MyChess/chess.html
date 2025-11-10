@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="en"></html>
 <head>
     <link rel="Stylesheet" href="chess.css">
 </head>
@@ -15,10 +15,95 @@
 
 <body>  
     <br>
+    <h2 id="tog">White's turn</h2>
     <br>
-    <canvas height="600" width="600"></canvas>
-    <!-- height and width attributs must be applied in the html element
+    <br>
+    <!--canvas height="600" width="600"></canvas>
+    -- height and width attributs must be applied in the html element
      if they are applied in the css file the checkerboard gets stretched, which we dint want -->
+
+    <ul>
+        <div class="divv" id="rank8">
+            <li class="square" id="a8"></li>
+            <li class="square" id="b8"></li>
+            <li class="square" id="c8"></li>
+            <li class="square" id="d8"></li>
+            <li class="square" id="e8">Black King</li>
+            <li class="square" id="f8"></li>
+            <li class="square" id="g8"></li>
+            <li class="square" id="h8"></li>
+        </div>
+        <div class="divv" id="rank7">
+            <li class="square" id="a7"></li>
+            <li class="square" id="b7"></li>
+            <li class="square" id="c7"></li>
+            <li class="square" id="d7"></li>
+            <li class="square" id="e7"></li>
+            <li class="square" id="f7"></li>
+            <li class="square" id="g7"></li>
+            <li class="square" id="h7"></li>
+        </div>
+        <div class="divv" id="rank6">
+            <li class="square" id="a6"></li>
+            <li class="square" id="b6"></li>
+            <li class="square" id="c6"></li>
+            <li class="square" id="d6"></li>
+            <li class="square" id="e6"></li>
+            <li class="square" id="f6"></li>
+            <li class="square" id="g6"></li>
+            <li class="square" id="h6"></li>
+        </div>
+        <div class="divv" id="rank5">
+            <li class="square" id="a5"></li>
+            <li class="square" id="b5"></li>
+            <li class="square" id="c5"></li>
+            <li class="square" id="d5"></li>
+            <li class="square" id="e5"></li>
+            <li class="square" id="f5"></li>
+            <li class="square" id="g5"></li>
+            <li class="square" id="h5"></li>
+        </div>
+        <div class="divv" id="rank4">
+            <li class="square" id="a4"></li>
+            <li class="square" id="b4"></li>
+            <li class="square" id="c4"></li>
+            <li class="square" id="d4"></li>
+            <li class="square" id="e4"></li>
+            <li class="square" id="f4"></li>
+            <li class="square" id="g4"></li>
+            <li class="square" id="h4"></li>
+        </div>
+        <div class="divv" id="rank3">
+            <li class="square" id="a3"></li>
+            <li class="square" id="b3"></li>
+            <li class="square" id="c3"></li>
+            <li class="square" id="d3"></li>
+            <li class="square" id="e3"></li>
+            <li class="square" id="f3"></li>
+            <li class="square" id="g3"></li>
+            <li class="square" id="h3"></li>
+        </div>
+        <div class="divv" id="rank2">
+            <li class="square" id="a2"></li>
+            <li class="square" id="b2"></li>
+            <li class="square" id="c2"></li>
+            <li class="square" id="d2"></li>
+            <li class="square" id="e2"></li>
+            <li class="square" id="f2"></li>
+            <li class="square" id="g2"></li>
+            <li class="square" id="h2"></li>
+        </div>
+        <div class="divv" id="rank1">
+            <li class="square" id="a1"></li>
+            <li class="square" id="b1"></li>
+            <li class="square" id="c1"></li>
+            <li class="square" id="d1">white king</li>
+            <li class="square" id="e1"></li>
+            <li class="square" id="f1"></li>
+            <li class="square" id="g1"></li>
+            <li class="square" id="h1"></li>
+        </div>
+    </ul>
 
     <p id="demo"></p>
 
@@ -33,8 +118,10 @@
         <li>Aoibhe</li>
         <li>Crown</li>
         <li>Queen</li>
-        <li>Evie</li>
+        <li>Toby</li>
         <li>Jack</li>
         <li>Alannah</li>
     </ol>
 </footer>
+
+</html>

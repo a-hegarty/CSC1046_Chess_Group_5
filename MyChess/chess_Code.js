@@ -54,10 +54,6 @@ function checkerboard() {
     }
 }
 
-function chessboard(){
-    document.createElement("div").className = "chessboard";
-}
-
 //function gets the coordinates of the mouse cursor on the canvas element
 function get_Mouse_Position(canvas, event){
     let rect = canvas.getBoundingClientRect();
@@ -152,11 +148,9 @@ class Pieces {
     }
 }
 
-
 function init(){
     checkerboard();
     forfeit();
-    chessboard();
 }
 
 init();
