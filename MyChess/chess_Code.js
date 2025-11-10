@@ -5,6 +5,19 @@ const square_Size = 75;
 /*setting the square size to 75 keeps the board at 8*8 squares,
 standard chessboard size, on a 600*600 canvas*/
 
+class Pieces {
+    constructor(colour, type, start_file, start_rank){
+        this.colour = colour;
+        this.type = type;
+        this.start_file = start_file;
+        this.start_rank = start_rank;
+    }
+
+    is_Captured(Bool){
+        this.is_Captured = false;
+    }
+}
+
 class Square_Button{
 
     constructor(fillColor){
@@ -26,6 +39,10 @@ class Square_Button{
         this.height = height;
     }
 
+    is_Occupied(bool){
+        this.is_Occupied = false;
+    }
+
     draw(context){
         context.fillStyle = this.fillColor;
         context.fillRect(this.x, this.y, this.width, this.height);
@@ -36,20 +53,19 @@ class Square_Button{
 function checkerboard() {
     //for loops make the grid for the board, drawing squares
     for (let row = 0; row < canvas.height / square_Size; row++){
-        for (let collumn = 0; collumn < canvas.width / square_Size; collumn++){
-            const x = collumn * square_Size;
+        for (let column = 0; column < canvas.width / square_Size; column++){
+            const x = column * square_Size;
             const y = row * square_Size;
 
             //if statement lets the squares be different colours
             //grey and beige chosen so black and white pieces can be clearly seen on both kinds of squares
-            if((row + collumn) % 2 === 0){
+            if((row + column) % 2 === 0){
                 //ctx.fillStyle = "beige";
                 const WhiteSquare = new Square_Button("beige");
                 WhiteSquare.set_Position(x, y);
                 WhiteSquare.set_ID(get_Rank(x), get_File(y));
                 WhiteSquare.set_Size(square_Size, square_Size);
                 WhiteSquare.draw(ctx);
-                console.log(get_Rank(x), get_File(y));
             } else {
                 //ctx.fillStyle = "grey";
                 const BlackSquare = new Square_Button("brown");
@@ -60,20 +76,6 @@ function checkerboard() {
             }
         }
     }
-}
-
-//function gets the coordinates of the mouse cursor on the canvas element
-function get_Mouse_Position(canvas, event){
-    let rect = canvas.getBoundingClientRect();
-    let x = Math.round(event.clientX - rect.left); 
-    // x is displaying a really long decimal for some reason
-    // used math.round to round it to the nearest whole number
-    let y = event.clientY - rect.top;
-
-    //get rank and file of the square the cursor is on
-    let rank = get_Rank(y);
-    let file = get_File(x);
-    document.getElementById("demo").innerText = "Rank: " + rank + " File: " + file;;
 }
 
 //function gets rank of row of board squares
@@ -102,7 +104,7 @@ function get_Rank(y_coord){
     return rank;
 }
 
-// function gets file of collumn of board squares
+// function gets file of column of board squares
 function get_File(x_coord){
     let file = "";
     if (x_coord < square_Size){
@@ -125,6 +127,14 @@ function get_File(x_coord){
     return file;
 }
 
+function add_Piece(){
+
+}
+
+function start_Game(){
+
+}
+
 //function allows plauer to forfeit a game after confirmation
 function forfeit(){
    const forfeit_Button = document.getElementById("forfeit");
@@ -136,6 +146,7 @@ function forfeit(){
         if(confirm_forfeit == true){
             // if player wants to forfeit, the game ends
             alert("You have forfeited the game.");
+            start_Game();
         } else {
             //otherwise play continues as normal
             alert("You have not forfeited the game\nReturning to game");
@@ -143,21 +154,9 @@ function forfeit(){
     }); 
 }
 
-canvas.addEventListener("click", function(e){
-    get_Mouse_Position(canvas, e);
-});
-
-class Pieces {
-    conscructor(colour, type, start_file, start_rank){
-        this.colour = colour;
-        this.type = type;
-        this.start_file = start_file;
-        this.start_rank = start_rank;
-    }
-}
-
 function init(){
     checkerboard();
+    start_Game();
     forfeit();
 }
 
