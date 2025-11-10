@@ -1,3 +1,32 @@
+//Integrating Web Sockets
+const params = new URLSearchParams(window.location.search);
+const gameId = params.get("gameId");
+
+if (!gameId) {
+  alert("No game ID found! Returning to menu.");
+  window.location.href = "/";
+}
+
+// connecting to server
+const socket = new WebSocket("ws://localhost:3000");
+
+socket.onopen = () => {
+  console.log("Connected to WebSocket server for game:", gameId);
+  socket.send(JSON.stringify({ type: "join", gameId }));
+};
+
+
+socket.onclose = () => {
+  console.log("Disconnected from WebSocket");
+};
+
+socket.onerror = (err) => {
+  console.error("WebSocket error:", err);
+};
+
+
+//Chess Code Below 
+
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 

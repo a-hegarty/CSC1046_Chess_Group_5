@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Chess Client</title>
+</head>
+<body>
+  <h1>WebSocket Chess</h1>
+
+  <input type="text" id="gameIdInput" placeholder="Game ID">
+  <button onclick="connect()">Join Game</button>
+
+  <br><br>
+  <pre id="log"></pre>
+
+  <script>
+    function connect() {
+      const gameId = document.getElementById('gameIdInput').value.trim();
+      if (!gameId) {
+        alert("Enter a Game ID first!");
+        return;
+      }
+      //go to the chess screen once you enter a id
+        window.location.href = `/chess/chess.html?gameId=${encodeURIComponent(gameId)}`;
+    }
+  </script>
+</body>
+</html>
