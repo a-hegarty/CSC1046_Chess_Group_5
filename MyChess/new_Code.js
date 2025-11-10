@@ -1,7 +1,7 @@
 function insertImage(){
     document.querySelectorAll('.square').forEach(image =>{
         if(image.innerText.length !== 0){
-            if(image.innerText == 'king black' || image.innerText == 'king white'){
+            if(image.innerText == 'Black King' || image.innerText == 'white king'){
                 image.innerHTML = `${image.innerText} <img class='allimg allKing' src='${image.innerText}.png'>`;
                 image.style.cursor = 'pointer';
             }
@@ -13,16 +13,13 @@ function insertImage(){
 }
 
 function colour_Squares(){
-    const colour = document.querySelectorAll('.square');
-
-    colour.forEach(colour => {
-        getId = colour.id;
-        arr = Array.from(getId);
-        arr.shift();
-        aside = eval(arr.pop());
-        aup = eval(arr.shift());
-        a = aside + aup;
-    })
+    for(let row = 0; row < 8; row ++){
+        for(let collumn = 0; collumn < 8; collumn++){
+            if((row + collumn) % 2 === 0 ){
+                
+            }
+        }
+    }
 }
 
 function forfeit(){
@@ -43,6 +40,7 @@ function forfeit(){
 }
 
 function init(){
+    colour_Squares();
     insertImage();
     forfeit();
 }

@@ -25,11 +25,17 @@ li{
 }
 
 .square{
-  margin:0px;
+  margin:1px;
   width: 75px;
   height: 75px;
 }
 
 #tog{
   margin: 10px 0px;
+}
+
+.allimg{
+  width: 45px;
+  position: relative;
+  bottom: 5px;
 }

@@ -16,6 +16,11 @@ class Square_Button{
         this.y = y;
     }
 
+    set_ID(rank, file){
+        this.rank = rank;
+        this.file = file;
+    }
+
     set_Size(width, height){
         this.width = width;
         this.height = height;
@@ -41,12 +46,15 @@ function checkerboard() {
                 //ctx.fillStyle = "beige";
                 const WhiteSquare = new Square_Button("beige");
                 WhiteSquare.set_Position(x, y);
+                WhiteSquare.set_ID(get_Rank(x), get_File(y));
                 WhiteSquare.set_Size(square_Size, square_Size);
                 WhiteSquare.draw(ctx);
+                console.log(get_Rank(x), get_File(y));
             } else {
                 //ctx.fillStyle = "grey";
                 const BlackSquare = new Square_Button("brown");
                 BlackSquare.set_Position(x, y);
+                BlackSquare.set_ID(get_Rank(x), get_File(y));
                 BlackSquare.set_Size(square_Size, square_Size);
                 BlackSquare.draw(ctx);
             }
