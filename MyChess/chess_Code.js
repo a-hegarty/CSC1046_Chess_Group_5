@@ -146,6 +146,7 @@ function get_Rank(y_coord){
 
 // function gets file of column of board squares
 function get_File(x_coord){
+    //function works the same as get_Rank(), but with chars instead of ints
     let file = "";
     if (x_coord < square_Size){
         file = "a";
