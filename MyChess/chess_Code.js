@@ -27,14 +27,18 @@ socket.onerror = (err) => {
 
 //Chess Code Below 
 
+//setting the canvan & context
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 const square_Size = 75; 
 /*setting the square size to 75 keeps the board at 8*8 squares,
-standard chessboard size, on a 600*600 canvas*/
+standard chessboard size, on a 600*600 px canvas*/
 
+//class for each piece
 class Pieces {
+    //constructor for a black king would appear as 
+    // new Piece(black, King, d, 1);
     constructor(colour, type, start_file, start_rank){
         this.colour = colour;
         this.type = type;
@@ -42,11 +46,14 @@ class Pieces {
         this.start_rank = start_rank;
     }
 
+    //default to false
+    // no pice starts a chess game captured
     is_Captured(Bool){
         this.is_Captured = false;
     }
 }
 
+//class defines each square on the board
 class Square_Button{
 
     constructor(fillColor){
@@ -58,6 +65,8 @@ class Square_Button{
         this.y = y;
     }
 
+    //uses the gets the rank and file of each square
+    //this will be unique ot each square
     set_ID(rank, file){
         this.rank = rank;
         this.file = file;
@@ -68,10 +77,12 @@ class Square_Button{
         this.height = height;
     }
 
+    //default to false
     is_Occupied(bool){
         this.is_Occupied = false;
     }
 
+    //draws the square in the canvas element
     draw(context){
         context.fillStyle = this.fillColor;
         context.fillRect(this.x, this.y, this.width, this.height);
@@ -156,24 +167,26 @@ function get_File(x_coord){
     return file;
 }
 
+//function adds a piece to a square on the board
 function add_Piece(){
 
 }
 
+//function will start a game with every piece but the kings randomised
 function start_Game(){
 
 }
 
-//function allows plauer to forfeit a game after confirmation
+//function allows player to forfeit a game at any point
 function forfeit(){
    const forfeit_Button = document.getElementById("forfeit");
     
    //on click...
     forfeit_Button.addEventListener("click", function(){
-        //...confirn decision...
+        //...confirm decision...
         let confirm_forfeit = confirm("Are you sure you would like to forfeit this game?");
         if(confirm_forfeit == true){
-            // if player wants to forfeit, the game ends
+            // if player wants to forfeit, the game ends and a new game starts
             alert("You have forfeited the game.");
             start_Game();
         } else {
@@ -182,6 +195,7 @@ function forfeit(){
         }
     }); 
 }
+
 
 function init(){
     checkerboard();
