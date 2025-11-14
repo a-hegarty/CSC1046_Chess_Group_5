@@ -2,6 +2,7 @@
 const params = new URLSearchParams(window.location.search);
 const gameId = params.get("gameId");
 
+//error checking back to main menu if there is no game id found
 if (!gameId) {
   alert("No game ID found! Returning to menu.");
   window.location.href = "/";
@@ -10,16 +11,18 @@ if (!gameId) {
 // connecting to server
 const socket = new WebSocket("ws://localhost:3000");
 
+//opening socket to join game using game id
 socket.onopen = () => {
   console.log("Connected to WebSocket server for game:", gameId);
   socket.send(JSON.stringify({ type: "join", gameId }));
 };
 
-
+//closing socket when disconnected
 socket.onclose = () => {
   console.log("Disconnected from WebSocket");
 };
 
+//socket handling errors by throwing console.error
 socket.onerror = (err) => {
   console.error("WebSocket error:", err);
 };
