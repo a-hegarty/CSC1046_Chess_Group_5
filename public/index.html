@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WebSocket Chess Client</title>
+  <title>Group Five Chess Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>WebSocket Chess</h1>
+  <div class="container">
+  <h1>Group Five - WebSocket Chess</h1>
 
-  <!-- this is a simple form for the user to be able to input the game id ( can be anything ) -->
-  <input type="text" id="gameIdInput" placeholder="Game ID">
-  <!-- this button connects to web socket session -->
-  <button onclick="connect()">Join Game</button>
+  <p>Enter a game id to join a game</p>
 
-  <br><br>
+    <div class="form-group">
+        <!-- this is a simple form for the user to be able to input the game id ( can be anything ) -->
+      <input type="text" id="gameIdInput" placeholder="Enter Game ID">
+        <!-- this button connects to web socket session -->
+      <button onclick="connect()">Join Game</button>
+    </div>
+
   <pre id="log"></pre>
-
+</div>
   <script>
     // this is the function that is called in the button
     function connect() {
