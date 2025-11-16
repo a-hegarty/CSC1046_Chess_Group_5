@@ -45,17 +45,23 @@ wss.on('connection', (ws) => {
 
     //if its a join msg
     if (msg.type === 'join') {
-      const { gameId } = msg;
-      currentGameId = gameId;
+        const { gameId } = msg;
+        currentGameId = gameId;
 
-      //create game entry 
-      if (!games[gameId]) games[gameId] = { players: new Set() };
+        // create game entry
+        if (!games[gameId]) games[gameId] = { players: new Set() };
 
-      //add client to the game
-      games[gameId].players.add(ws);
+        const players = games[gameId].players;
 
-      console.log(`Client joined game ${gameId}`);
-      return;
+        // add client to the game
+        players.add(ws);
+
+        // assign color
+        const color = players.size === 1 ? 'white' : 'black';
+        ws.send(JSON.stringify({ type: 'colorAssignment', color }));
+
+        console.log(`Client joined game ${gameId} as ${color}`);
+        return;
     }
   });
 

@@ -30,6 +30,24 @@ socket.onerror = (err) => {
 
 //Chess Code Below 
 
+//this code is assigning a user a side / colour
+//this is the default
+let playerColor = "white"; 
+socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    // server sends assigned color
+    if (data.type === "colorAssignment") {
+        playerColor = data.color;
+        document.getElementById("playerColor").innerText =
+            `You are ${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)}`;
+
+        //with correct side facing the player
+        drawBoardAndPieces();
+    }
+};
+
+
 //setting the canvan & context
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -45,7 +63,7 @@ standard chessboard size, on a 600*600 px canvas*/
 function fileToIndex(file) {
   return ["a","b","c","d","e","f","g","h"].indexOf(file);
 }
-// helper: rank number -> 0..7 (rank 8 => 0, rank 1 => 7)
+// helper rank number -> 0..7 (rank 8 => 0, rank 1 => 7)
 function rankToIndex(rank) {
   return 8 - Number(rank);
 }
@@ -140,14 +158,22 @@ function checkerboard() {
 //actually drawing the piece on the board
 function draw_Piece(piece) {
     if (!piece.img || piece.is_Captured) return;
-    const fileIndex = "abcdefgh".indexOf(piece.start_file);
-    const rankIndex = 8 - piece.start_rank;
+
+    let fileIndex = "abcdefgh".indexOf(piece.start_file);
+    let rankIndex = 8 - piece.start_rank;
+
+    //flip the board
+    if (playerColor === "black") {
+        fileIndex = 7 - fileIndex;
+        rankIndex = 7 - rankIndex;
+    }
 
     const x = fileIndex * square_Size;
     const y = rankIndex * square_Size;
 
     ctx.drawImage(piece.img, x + 8, y + 8, square_Size - 16, square_Size - 16);
 }
+
 
 
 //function gets rank of row of board squares
@@ -201,6 +227,7 @@ function get_File(x_coord){
 }
 
 //function adds a piece to a square on the board
+//might use this later?
 function add_Piece(){
 
 }
@@ -217,6 +244,14 @@ function loadPieceImage(colour, type) {
         img.onload = () => resolve(img);
         img.src = `/chess/pieces/${colour}/${type}.png`;
     });
+}
+
+//abstracting out of start game
+function drawBoardAndPieces() {
+    checkerboard();
+    for (const p of pieces) {
+        draw_Piece(p);
+    }
 }
 
 
@@ -267,10 +302,7 @@ async function start_Game() {
     }
 
     // draw board and the pieces
-    checkerboard();
-    for (const p of pieces){
-        draw_Piece(p);
-    } 
+    drawBoardAndPieces();
 }
 
 
