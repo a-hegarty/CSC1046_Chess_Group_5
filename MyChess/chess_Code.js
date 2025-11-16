@@ -40,7 +40,7 @@ socket.onmessage = (event) => {
     if (data.type === "colorAssignment") {
         playerColor = data.color;
         document.getElementById("playerColor").innerText =
-            `You are ${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)}`;
+            `You are playing as:  ${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)}`;
 
         //with correct side facing the player
         drawBoardAndPieces();
