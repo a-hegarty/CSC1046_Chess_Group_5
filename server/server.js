@@ -13,6 +13,7 @@ app.use(cors());
 //for post requests
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '../MyChess')));
 //using files from the /public folder
 app.use(express.static(path.join(__dirname, '../public')));
 

@@ -38,6 +38,25 @@ const square_Size = 75;
 /*setting the square size to 75 keeps the board at 8*8 squares,
 standard chessboard size, on a 600*600 px canvas*/
 
+
+// adding helper functions - this was looked up 
+
+// helper: file letter -> 0..7
+function fileToIndex(file) {
+  return ["a","b","c","d","e","f","g","h"].indexOf(file);
+}
+// helper: rank number -> 0..7 (rank 8 => 0, rank 1 => 7)
+function rankToIndex(rank) {
+  return 8 - Number(rank);
+}
+// convert file+rank to canvas x,y
+function coordToXY(file, rank) {
+  const x = fileToIndex(file) * square_Size;
+  const y = rankToIndex(rank) * square_Size;
+  return { x, y };
+}
+
+
 //class for each piece
 class Pieces {
     //constructor for a black king would appear as 
@@ -47,12 +66,8 @@ class Pieces {
         this.type = type;
         this.start_file = start_file;
         this.start_rank = start_rank;
-    }
-
-    //default to false
-    // no pice starts a chess game captured
-    is_Captured(Bool){
         this.is_Captured = false;
+        this.img = null; 
     }
 }
 
@@ -121,6 +136,20 @@ function checkerboard() {
     }
 }
 
+
+//actually drawing the piece on the board
+function draw_Piece(piece) {
+    if (!piece.img || piece.is_Captured) return;
+    const fileIndex = "abcdefgh".indexOf(piece.start_file);
+    const rankIndex = 8 - piece.start_rank;
+
+    const x = fileIndex * square_Size;
+    const y = rankIndex * square_Size;
+
+    ctx.drawImage(piece.img, x + 8, y + 8, square_Size - 16, square_Size - 16);
+}
+
+
 //function gets rank of row of board squares
 function get_Rank(y_coord){
     let rank = 0;
@@ -176,10 +205,74 @@ function add_Piece(){
 
 }
 
-//function will start a game with every piece but the kings randomised
-function start_Game(){
+//storing the images
+const pieceImages = { white: {}, black: {} };
+const pieces = [];
 
+
+// loads image of the specific piece from their folder
+function loadPieceImage(colour, type) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = `/chess/pieces/${colour}/${type}.png`;
+    });
 }
+
+
+//function will start a game with every piece but the kings randomised
+async function start_Game() {
+
+    //load each one once and call the function
+    const types = ["pawn", "rook", "knight", "bishop", "queen", "king"];
+    for (const colour of ["white", "black"]) {
+        for (const type of types) {
+            pieceImages[colour][type] = await loadPieceImage(colour, type);
+        }
+    }
+
+    //starting
+    pieces.length = 0; 
+
+    //the pawns at the front
+    for (let i = 0; i < 8; i++) {
+        const file = "abcdefgh"[i];
+        pieces.push(new Pieces("white", "pawn", file, 2));
+        pieces.push(new Pieces("black", "pawn", file, 7));
+    }
+
+    //whitee
+    pieces.push(new Pieces("white", "rook", "a", 1));
+    pieces.push(new Pieces("white", "knight", "b", 1));
+    pieces.push(new Pieces("white", "bishop", "c", 1));
+    pieces.push(new Pieces("white", "queen", "d", 1));
+    pieces.push(new Pieces("white", "king", "e", 1));
+    pieces.push(new Pieces("white", "bishop", "f", 1));
+    pieces.push(new Pieces("white", "knight", "g", 1));
+    pieces.push(new Pieces("white", "rook", "h", 1));
+
+    //black
+    pieces.push(new Pieces("black", "rook", "a", 8));
+    pieces.push(new Pieces("black", "knight", "b", 8));
+    pieces.push(new Pieces("black", "bishop", "c", 8));
+    pieces.push(new Pieces("black", "queen", "d", 8));
+    pieces.push(new Pieces("black", "king", "e", 8));
+    pieces.push(new Pieces("black", "bishop", "f", 8));
+    pieces.push(new Pieces("black", "knight", "g", 8));
+    pieces.push(new Pieces("black", "rook", "h", 8));
+
+    // attach images to each piece
+    for (const p of pieces) {
+        p.img = pieceImages[p.colour][p.type];
+    }
+
+    // draw board and the pieces
+    checkerboard();
+    for (const p of pieces){
+        draw_Piece(p);
+    } 
+}
+
 
 //function allows player to forfeit a game at any point
 function forfeit(){
@@ -201,9 +294,10 @@ function forfeit(){
 }
 
 
-function init(){
+async function init(){
     checkerboard();
-    start_Game();
+    //have to wait for the inages
+    await start_Game(); 
     forfeit();
 }
 
