@@ -33,6 +33,54 @@ const PORT = 3000;
 //there can be multiple games happening at once
 const games = {}; 
 
+//this is a helper function for the randomizing pieces on the board
+function generateRandomBoard() {
+    const pieces = [];
+    const files = ["a","b","c","d","e","f","g","h"];
+
+    //helper function
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
+    function placePieces(color, ranks) {
+        let availablePositions = [];
+        for (let r of ranks) {
+            for (let f of files) availablePositions.push({ file: f, rank: r });
+        }
+
+        const pieceTypes = ["king", "queen", "rook", "bishop", "knight", "pawn"];
+        const counts = { king: 1, queen: 1, rook: 2, bishop: 2, knight: 2, pawn: 8 };
+        let allPieces = [];
+
+        for (const type of pieceTypes) {
+            for (let i = 0; i < counts[type]; i++) allPieces.push(type);
+        }
+
+        allPieces = shuffle(allPieces);
+
+        allPieces.forEach(type => {
+            const posIndex = Math.floor(Math.random() * availablePositions.length);
+            const pos = availablePositions.splice(posIndex, 1)[0];
+            pieces.push({
+                colour: color,
+                type: type,
+                start_file: pos.file,
+                start_rank: pos.rank
+            });
+        });
+    }
+
+    //placing on white side
+    placePieces("white", [1, 2]);
+    
+    //placing on black side
+    placePieces("black", [7, 8]);
+
+    return pieces;
+}
+
+
 //when client connects to websocket server
 wss.on('connection', (ws) => {
   let currentGameId = null;
@@ -49,7 +97,13 @@ wss.on('connection', (ws) => {
         currentGameId = gameId;
 
         // create game entry
-        if (!games[gameId]) games[gameId] = { players: new Set() };
+        if (!games[gameId]) {
+        games[gameId] = {
+            players: new Set(),
+            //this is needed so both players see the same board - issues with two randomized boards
+            board: generateRandomBoard() 
+        };
+      }
 
         const players = games[gameId].players;
 
@@ -59,6 +113,9 @@ wss.on('connection', (ws) => {
         // assign color
         const color = players.size === 1 ? 'white' : 'black';
         ws.send(JSON.stringify({ type: 'colorAssignment', color }));
+
+        //sending the same board
+        ws.send(JSON.stringify({ type: 'boardSetup', pieces: games[gameId].board }));
 
         console.log(`Client joined game ${gameId} as ${color}`);
         return;

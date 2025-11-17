@@ -27,28 +27,51 @@ socket.onerror = (err) => {
   console.error("WebSocket error:", err);
 };
 
-
-//Chess Code Below 
-
 //this code is assigning a user a side / colour
 //this is the default
 let playerColor = "white"; 
-socket.onmessage = (event) => {
+
+// Handle incoming server messages
+socket.onmessage = async (event) => {
     const data = JSON.parse(event.data);
 
-    // server sends assigned color
+    // server assigns color
     if (data.type === "colorAssignment") {
         playerColor = data.color;
         document.getElementById("playerColor").innerText =
-            `You are playing as:  ${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)}`;
+            `You are playing as: ${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)}`;
+    }
 
-        //with correct side facing the player
+    // server sends board setup
+    if (data.type === "boardSetup") {
+        // clear pieces
+        pieces.length = 0;
+
+        // ensure images are loaded
+        const types = ["pawn", "rook", "knight", "bishop", "queen", "king"];
+        for (const colour of ["white", "black"]) {
+            for (const type of types) {
+                if (!pieceImages[colour][type]) {
+                    pieceImages[colour][type] = await loadPieceImage(colour, type);
+                }
+            }
+        }
+
+        // fill pieces array from server
+        data.pieces.forEach(p => {
+            const piece = new Pieces(p.colour, p.type, p.start_file, p.start_rank);
+            piece.img = pieceImages[p.colour][p.type];
+            pieces.push(piece);
+        });
+
+        // draw the board and pieces
         drawBoardAndPieces();
     }
 };
 
+//Chess Code Below 
 
-//setting the canvan & context
+//setting the canvas & context
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -125,7 +148,7 @@ class Square_Button{
     }
 }
 
-//fucntion prints a checkerboard using the dimensions of the canvas element and square_Size const
+//function prints a checkerboard using the dimensions of the canvas element and square_Size const
 function checkerboard() {
     //for loops make the grid for the board, drawing squares
     for (let row = 0; row < canvas.height / square_Size; row++){
@@ -136,14 +159,12 @@ function checkerboard() {
             //if statement lets the squares be different colours
             //grey and beige chosen so black and white pieces can be clearly seen on both kinds of squares
             if((row + column) % 2 === 0){
-                //ctx.fillStyle = "beige";
                 const WhiteSquare = new Square_Button("beige");
                 WhiteSquare.set_Position(x, y);
                 WhiteSquare.set_ID(get_Rank(x), get_File(y));
                 WhiteSquare.set_Size(square_Size, square_Size);
                 WhiteSquare.draw(ctx);
             } else {
-                //ctx.fillStyle = "grey";
                 const BlackSquare = new Square_Button("brown");
                 BlackSquare.set_Position(x, y);
                 BlackSquare.set_ID(get_Rank(x), get_File(y));
@@ -175,67 +196,39 @@ function draw_Piece(piece) {
 }
 
 
-
 //function gets rank of row of board squares
 function get_Rank(y_coord){
     let rank = 0;
-    if (y_coord < square_Size){ 
-        /* if y_coord is strictly less than square_Size, it is in the 8 rank
-        if y_coord is between squaresize and 2* squaresize, it is in rank 7 and so on
-        same applies for files in function get_File()*/
-        rank = 8;
-    } else if (square_Size <= y_coord && y_coord < 2 * square_Size){
-        rank = 7;
-    } else if (2 * square_Size <= y_coord && y_coord < 3 * square_Size){
-        rank = 6;
-    } else if (3 * square_Size <= y_coord && y_coord < 4 * square_Size){
-        rank = 5;
-    } else if (4 * square_Size <= y_coord && y_coord < 5 * square_Size){
-        rank = 4;
-    } else if (5 * square_Size <= y_coord && y_coord < 6 * square_Size){
-        rank = 3;
-    } else if (6 * square_Size <= y_coord && y_coord < 7 * square_Size){
-        rank = 2;
-    } else if (7 * square_Size <= y_coord && y_coord < 8 * square_Size){
-        rank = 1;
+    if (y_coord < square_Size){ rank = 8;
+    } else if (square_Size <= y_coord && y_coord < 2 * square_Size){ rank = 7;
+    } else if (2 * square_Size <= y_coord && y_coord < 3 * square_Size){ rank = 6;
+    } else if (3 * square_Size <= y_coord && y_coord < 4 * square_Size){ rank = 5;
+    } else if (4 * square_Size <= y_coord && y_coord < 5 * square_Size){ rank = 4;
+    } else if (5 * square_Size <= y_coord && y_coord < 6 * square_Size){ rank = 3;
+    } else if (6 * square_Size <= y_coord && y_coord < 7 * square_Size){ rank = 2;
+    } else if (7 * square_Size <= y_coord && y_coord < 8 * square_Size){ rank = 1;
     }
     return rank;
 }
 
 // function gets file of column of board squares
 function get_File(x_coord){
-    //function works the same as get_Rank(), but with chars instead of ints
     let file = "";
-    if (x_coord < square_Size){
-        file = "a";
-    } else if (square_Size <= x_coord && x_coord < 2 * square_Size){
-        file = "b";
-    } else if (2 * square_Size <= x_coord && x_coord < 3 * square_Size){
-        file = "c";
-    } else if (3 * square_Size <= x_coord && x_coord < 4 * square_Size){
-        file = "d";
-    } else if (4 * square_Size <= x_coord && x_coord < 5 * square_Size){
-        file = "e";
-    } else if (5 * square_Size <= x_coord && x_coord < 6 * square_Size){
-        file = "f";
-    } else if (6 * square_Size <= x_coord && x_coord < 7 * square_Size){
-        file = "g";
-    } else if (7 * square_Size <= x_coord && x_coord < 8 * square_Size){
-        file = "h";
+    if (x_coord < square_Size){ file = "a";
+    } else if (square_Size <= x_coord && x_coord < 2 * square_Size){ file = "b";
+    } else if (2 * square_Size <= x_coord && x_coord < 3 * square_Size){ file = "c";
+    } else if (3 * square_Size <= x_coord && x_coord < 4 * square_Size){ file = "d";
+    } else if (4 * square_Size <= x_coord && x_coord < 5 * square_Size){ file = "e";
+    } else if (5 * square_Size <= x_coord && x_coord < 6 * square_Size){ file = "f";
+    } else if (6 * square_Size <= x_coord && x_coord < 7 * square_Size){ file = "g";
+    } else if (7 * square_Size <= x_coord && x_coord < 8 * square_Size){ file = "h";
     }
     return file;
-}
-
-//function adds a piece to a square on the board
-//might use this later?
-function add_Piece(){
-
 }
 
 //storing the images
 const pieceImages = { white: {}, black: {} };
 const pieces = [];
-
 
 // loads image of the specific piece from their folder
 function loadPieceImage(colour, type) {
@@ -254,70 +247,19 @@ function drawBoardAndPieces() {
     }
 }
 
-
-//function will start a game with every piece but the kings randomised
-async function start_Game() {
-
-    //load each one once and call the function
-    const types = ["pawn", "rook", "knight", "bishop", "queen", "king"];
-    for (const colour of ["white", "black"]) {
-        for (const type of types) {
-            pieceImages[colour][type] = await loadPieceImage(colour, type);
-        }
-    }
-
-    //starting
-    pieces.length = 0; 
-
-    //the pawns at the front
-    for (let i = 0; i < 8; i++) {
-        const file = "abcdefgh"[i];
-        pieces.push(new Pieces("white", "pawn", file, 2));
-        pieces.push(new Pieces("black", "pawn", file, 7));
-    }
-
-    //whitee
-    pieces.push(new Pieces("white", "rook", "a", 1));
-    pieces.push(new Pieces("white", "knight", "b", 1));
-    pieces.push(new Pieces("white", "bishop", "c", 1));
-    pieces.push(new Pieces("white", "queen", "d", 1));
-    pieces.push(new Pieces("white", "king", "e", 1));
-    pieces.push(new Pieces("white", "bishop", "f", 1));
-    pieces.push(new Pieces("white", "knight", "g", 1));
-    pieces.push(new Pieces("white", "rook", "h", 1));
-
-    //black
-    pieces.push(new Pieces("black", "rook", "a", 8));
-    pieces.push(new Pieces("black", "knight", "b", 8));
-    pieces.push(new Pieces("black", "bishop", "c", 8));
-    pieces.push(new Pieces("black", "queen", "d", 8));
-    pieces.push(new Pieces("black", "king", "e", 8));
-    pieces.push(new Pieces("black", "bishop", "f", 8));
-    pieces.push(new Pieces("black", "knight", "g", 8));
-    pieces.push(new Pieces("black", "rook", "h", 8));
-
-    // attach images to each piece
-    for (const p of pieces) {
-        p.img = pieceImages[p.colour][p.type];
-    }
-
-    // draw board and the pieces
-    drawBoardAndPieces();
-}
-
-
 //function allows player to forfeit a game at any point
 function forfeit(){
    const forfeit_Button = document.getElementById("forfeit");
     
-   //on click...
+    //on click...
     forfeit_Button.addEventListener("click", function(){
         //...confirm decision...
         let confirm_forfeit = confirm("Are you sure you would like to forfeit this game?");
         if(confirm_forfeit == true){
             // if player wants to forfeit, the game ends and a new game starts
             alert("You have forfeited the game.");
-            start_Game();
+            // Request new board from server
+            socket.send(JSON.stringify({ type: "join", gameId }));
         } else {
             //otherwise play continues as normal
             alert("You have not forfeited the game\nReturning to game");
@@ -325,11 +267,10 @@ function forfeit(){
     }); 
 }
 
-
+//initialises the board and pieces
 async function init(){
     checkerboard();
-    //have to wait for the inages
-    await start_Game(); 
+    //forfeit button setup
     forfeit();
 }
 
